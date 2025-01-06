@@ -11,6 +11,7 @@ include: "rules/reference_mapping.smk"
 include: "rules/trees.smk"
 include: "rules/assembly_annotation.smk"
 include: "rules/amr.smk"
+include: "rules/clustering.smk"
 
 localrule: all
 
@@ -19,3 +20,4 @@ rule all:
         "data/trees/gubbins/core.final_tree.tre",
         expand("data/annotations/{sample}/{sample}.gff3", sample=samples["sample"]),
         "data/hamronize_summary.tsv",
+        "data/poppunk/poppunk_clusters.csv"
