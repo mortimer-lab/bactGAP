@@ -48,7 +48,7 @@ rule download_baktadb:
     conda:
         "../envs/bakta.yml"
     resources:
-        runtime=120
+        runtime=240
     shell:
         """
         bakta_db download --output data/bakta_db --type full
