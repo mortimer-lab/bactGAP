@@ -2,6 +2,7 @@ executor: "slurm"
 software-deployment-method: "conda"
 latency-wait: 60
 jobs: 100
+retries: 3
 default-resources:
   runtime: 10
   slurm_partition: "batch"
