@@ -1,7 +1,7 @@
 # bactGAP Bacterial genome assembly pipeline for the Mortimer Lab at UGA
 
 # Pipeline Requirements
-This pipeline requires conda for software installation and Snakemake. If you are running this pipeline on Sapelo2 or another cluster with the UGA
+This pipeline requires conda for software installation and Snakemake. If you are running this pipeline on Sapelo2 or another cluster with slurm, you also need the snakemake executor plugin for slurm.
 
 ## Installing snakemake
 1. Install conda or mamba. We recommend [miniforge](https://conda-forge.org/download/).
