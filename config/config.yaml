@@ -1,0 +1,11 @@
+samples: "config/samples.tsv"
+genus_species: "Genus species"
+genus: "Genus"
+species: "species"
+
+# optional configuration if you want to perform reference guided assembly and treebuilding
+reference: "GCF_XXXXXXXXX.X"
+
+# optional configuration if you want to cluster genomes using a pre-defined poppunk database
+poppunk_db: "NA"
+
