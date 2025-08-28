@@ -17,7 +17,9 @@ localrule: all
 
 rule all:
     input:
-        "data/trees/gubbins/core.final_tree.tre",
         expand("data/annotations/{sample}/{sample}.gff3", sample=samples["sample"]),
-        "data/hamronize_summary.tsv",
-        "data/poppunk/poppunk_clusters.csv"
+        #expand("data/amrfinder/{sample}.txt", sample=samples["sample"]),
+        #"data/trees/gubbins/core.final_tree.tre",
+        #"data/poppunk/poppunk_clusters.csv"
+
+
