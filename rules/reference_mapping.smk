@@ -12,7 +12,7 @@ rule snippy:
         mem_mb=lambda wildcards, attempt: attempt * 8000,
         runtime=lambda wildcards, attempt: attempt * 15
     params:
-        ram=lambda wildcards, resources: resources.mem_mb/1000
+        ram=lambda wildcards, resources: resources.mem_mb//1000
     shell:
         """
         snippy --force --cpus {threads} --ram {params.ram} --mincov 20 --minfrac 0.9 --outdir data/snippy/{wildcards.sample} --ref {input.reference} --R1 {input.read1} --R2 {input.read2} 
