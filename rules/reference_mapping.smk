@@ -9,7 +9,8 @@ rule snippy:
         "../envs/snippy.yml"
     threads: 8
     resources:
-        mem_mb=lambda wildcards, attempt: attempt * 8000
+        mem_mb=lambda wildcards, attempt: attempt * 8000,
+        runtime=lambda wildcards, attempt: attempt * 15
     shell:
         """
         snippy --force --cpus {threads} --ram 8 --mincov 20 --minfrac 0.9 --outdir data/snippy/{wildcards.sample} --ref {input.reference} --R1 {input.read1} --R2 {input.read2} 
