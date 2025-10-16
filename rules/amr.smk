@@ -17,7 +17,7 @@ rule get_amrfinder_database:
         amrfinder --list_organisms > {output.amrfinder_organisms}
         """
 
-def organism_flag():
+def organism_flag(wildcards):
     with open("data/amrfinder_organisms.txt", "r") as infile:
         for i,line in enumerate(infile):
             if i > 0:
@@ -32,7 +32,8 @@ def organism_flag():
 rule amrfinder:
     input:
         assembly="data/filtered_assemblies/{sample}_contigs_filtered.fa",
-        database="data/amrfinder_database_version.txt"
+        database="data/amrfinder_database_version.txt",
+        amrfinder_organisms="data/amrfinder_organisms.txt"
     output:
         "data/amrfinder/{sample}.txt",
     params:
