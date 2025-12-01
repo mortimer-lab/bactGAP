@@ -5,7 +5,7 @@ rule fasterq_dump:
     conda:
         "../envs/sratools.yml"
     resources:
-        runtime=90    
+        runtime=30
     shell:
         """
         fasterq-dump -O data/fastqs/ {wildcards.sample}

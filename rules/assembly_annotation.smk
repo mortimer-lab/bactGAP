@@ -9,7 +9,7 @@ rule spades:
     threads: 8
     resources:
         mem_mb=16000,
-        runtime=60
+        runtime=lambda wildcards, attempt: attempt * 60
     shell:
         """
         spades.py -t {threads} -m 16 --isolate -1 {input.read1} -2 {input.read2} -o data/spades/{wildcards.sample}
