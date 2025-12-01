@@ -4,6 +4,8 @@ rule fasterq_dump:
         "data/fastqs/{sample}_2.fastq.gz",
     conda:
         "../envs/sratools.yml"
+    resources:
+        runtime=90    
     shell:
         """
         fasterq-dump -O data/fastqs/ {wildcards.sample}
@@ -22,6 +24,8 @@ rule fastp:
         html="data/qc/fastq/{sample}.html"
     conda:
         "../envs/fastp.yml"
+    resources:
+        runtime=240
     threads: 4
     shell:
         """
@@ -52,4 +56,16 @@ rule download_baktadb:
     shell:
         """
         bakta_db download --output data/bakta_db --type full
+        """
+
+rule download_syldb:
+    output:
+        "data/syl_db/gtdb-r220-c200-dbv1.syldb"
+    conda:
+        "../envs/sylph.yml"
+    resources:
+        runtime=240
+    shell:
+        """
+        wget -P data/syl_db/ http://faust.compbio.cs.cmu.edu/sylph-stuff/gtdb-r220-c200-dbv1.syldb
         """
