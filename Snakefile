@@ -14,6 +14,7 @@ include: "rules/assembly_annotation.smk"
 include: "rules/amr.smk"
 include: "rules/clustering.smk"
 include: "rules/qc.smk"
+include: "rules/salmonella.smk"
 
 localrules: all, filter_tophits, filter_minimum_contamination
 
@@ -22,9 +23,13 @@ rule all:
         expand("data/annotations/{sample}/{sample}.gff3", sample=samples["sample"]),
         "data/qc/filtered_output.tsv",
         "data/qc/checkm2/quality_report.tsv",
-        "data/qc/quast/transposed_report.tsv"
+        "data/qc/quast/transposed_report.tsv",
         #expand("data/amrfinder/{sample}.txt", sample=samples["sample"]),
         #"data/trees/gubbins/core.final_tree.tre",
-        #"data/poppunk/poppunk_clusters.csv"
+        #"data/poppunk/poppunk_clusters.csv",
+        expand("data/seqsero2/{sample}/SeqSero_result.tsv", sample=samples["sample"]) if config["genus"] == "Salmonella" else [],
+
+
+
 
 
