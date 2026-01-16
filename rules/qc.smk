@@ -49,3 +49,19 @@ rule checkm2:
         """
         checkm2 predict --force -t {threads} -x .fa --output-directory data/qc/checkm2/ --input data/filtered_assemblies/ --database_path {input.db}
         """
+
+rule quast:
+    input:
+        assemblies=expand(["data/filtered_assemblies/{sample}_contigs_filtered.fa"], sample=samples["sample"]),
+    output:
+        "data/qc/quast/transposed_report.tsv"
+    threads: 16
+    conda:
+        "../envs/quast.yml"
+    resources:
+        runtime=lambda wildcards, attempt: attempt * 30,
+        mem_mb=8000
+    shell:
+        """
+        quast -o data/qc/quast --threads 16 --no-plots {input.assemblies}
+        """
