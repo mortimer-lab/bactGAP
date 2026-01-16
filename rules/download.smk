@@ -69,3 +69,15 @@ rule download_syldb:
         """
         wget -P data/syl_db/ http://faust.compbio.cs.cmu.edu/sylph-stuff/gtdb-r220-c200-dbv1.syldb
         """
+
+rule download_checkm2db:
+    output:
+        "data/CheckM2_database/uniref100.KO.1.dmnd"
+    resources:
+        runtime=60
+    shell:
+        """
+        wget https://zenodo.org/records/14897628/files/checkm2_database.tar.gz
+        tar xf checkm2_database.tar.gz
+        mv CheckM2_database/ data/
+        """
