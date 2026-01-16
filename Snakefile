@@ -15,12 +15,13 @@ include: "rules/amr.smk"
 include: "rules/clustering.smk"
 include: "rules/qc.smk"
 
-localrule: all
+localrules: all, filter_tophits, filter_minimum_contamination
 
 rule all:
     input:
         expand("data/annotations/{sample}/{sample}.gff3", sample=samples["sample"]),
-        "data/qc/filtered_output.tsv"
+        "data/qc/filtered_output.tsv",
+        "data/qc/checkm2/quality_report.tsv",
         #expand("data/amrfinder/{sample}.txt", sample=samples["sample"]),
         #"data/trees/gubbins/core.final_tree.tre",
         #"data/poppunk/poppunk_clusters.csv"
