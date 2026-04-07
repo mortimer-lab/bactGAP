@@ -16,24 +16,24 @@ rule sylph:
 rule filter_tophits:
     input:
         "data/qc/sylph_profiles.tsv"
-    params:
-        genus=config["genus"],
-        species=config["species"]
     output:
         "data/qc/sylph_profiles_tophits.tsv"
     shell:
         """
-        python3 scripts/filter_tophits.py {input} {output} --genus {params.genus} --species {params.species}
+        python3 scripts/filter_tophits.py {input} {output}
         """
 
 rule filter_minimum_contamination:
     input:
         "data/qc/sylph_profiles_tophits.tsv"
+    params:
+	    genus=config["genus"],
+        species=config["species"]
     output:
         "data/qc/filtered_output.tsv"
     shell:
         """
-        python3 scripts/filter_maximum_abundance.py {input} {output}
+        python3 scripts/filter_maximum_abundance.py {input} {output} --genus {params.genus} --species {params.species}
         """
 
 rule checkm2:
