@@ -16,11 +16,14 @@ rule sylph:
 rule filter_tophits:
     input:
         "data/qc/sylph_profiles.tsv"
+    params:
+        genus=config["genus"],
+        species=config["species"]
     output:
         "data/qc/sylph_profiles_tophits.tsv"
     shell:
         """
-        python3 scripts/filter_tophits.py {input} {output} --genus "Treponema" --species "pallidum"
+        python3 scripts/filter_tophits.py {input} {output} --genus {params.genus} --species {params.species}
         """
 
 rule filter_minimum_contamination:
