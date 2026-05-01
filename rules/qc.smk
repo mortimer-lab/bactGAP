@@ -27,7 +27,7 @@ rule filter_minimum_contamination:
     input:
         "data/qc/sylph_profiles_tophits.tsv"
     params:
-	    genus=config["genus"],
+        genus=config["genus"],
         species=config["species"]
     output:
         "data/qc/filtered_output.tsv"
