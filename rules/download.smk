@@ -1,11 +1,11 @@
 rule fasterq_dump:
     output:
-        "data/fastqs/{sample}_1.fastq.gz",
-        "data/fastqs/{sample}_2.fastq.gz",
+        temp("data/fastqs/{sample}_1.fastq.gz"),
+        temp("data/fastqs/{sample}_2.fastq.gz"),
     conda:
         "../envs/sratools.yml"
     resources:
-        runtime=30
+        runtime=lambda wildcards, attempt: attempt * 30
     shell:
         """
         fasterq-dump -O data/fastqs/ {wildcards.sample}
@@ -18,8 +18,8 @@ rule fastp:
         in1="data/fastqs/{sample}_1.fastq.gz",
         in2="data/fastqs/{sample}_2.fastq.gz"
     output:
-        out1="data/trimmed/{sample}_1.fastq.gz",
-        out2="data/trimmed/{sample}_2.fastq.gz",
+        out1=temp("data/trimmed/{sample}_1.fastq.gz"),
+        out2=temp("data/trimmed/{sample}_2.fastq.gz"),
         json="data/qc/fastp/{sample}.json",
         html="data/qc/fastq/{sample}.html"
     conda:
