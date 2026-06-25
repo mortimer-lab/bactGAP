@@ -8,7 +8,7 @@ rule spades:
         "../envs/spades.yml"
     threads: 8
     resources:
-        mem_mb=16000,
+        mem_mb=lambda wildcards, attempt: 16000,
         runtime=lambda wildcards, attempt: attempt * 60
     shell:
         """
@@ -39,6 +39,7 @@ rule bakta:
         fasta="data/filtered_assemblies/{sample}_contigs_filtered.fa",
         db="data/bakta_db/db/bakta.db"
     output:
+        protein="data/annotations/{sample}/{sample}.faa",
         gff="data/annotations/{sample}/{sample}.gff3"
     params:
         genus=config["genus"],
