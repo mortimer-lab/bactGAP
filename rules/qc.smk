@@ -8,7 +8,7 @@ rule sylph:
         "../envs/sylph.yml"
     threads: 12
     resources:
-        runtime=lambda wildcards, attempt: attempt * 90,
+        runtime=lambda wildcards, input: 5 + (len(input) * 0.01),
         mem_mb=32000
     shell:
         "sylph profile {input.db} -1 data/trimmed/*_1.fastq.gz -2 data/trimmed/*_2.fastq.gz -t {threads} > {output}"
@@ -35,22 +35,32 @@ rule filter_minimum_contamination:
         """
         python3 scripts/filter_maximum_abundance.py {input} {output} --genus {params.genus} --species {params.species}
         """
+rule create_checkm2_input:
+    input:
+        "data/annotations/{sample}/{sample}.faa"
+    output:
+        temp("data/qc/checkm2_input/{sample}.faa")
+    shell:
+        """
+        mkdir -p data/qc/checkm2_input/
+        ln -rs {input} {output}
+        """
 
 rule checkm2:
     input:
-        assemblies=expand(["data/filtered_assemblies/{sample}_contigs_filtered.fa"], sample=samples["sample"]),
+        proteins=expand(["data/qc/checkm2_input/{sample}.faa"], sample=samples["sample"]),
         db="data/CheckM2_database/uniref100.KO.1.dmnd"
     output:
-        "data/qc/checkm2/quality_report.tsv"
+        report="data/qc/checkm2/quality_report.tsv",
     threads: 16
     conda:
         "../envs/checkm2.yml"
     resources:
-        runtime=lambda wildcards, attempt: attempt * 240,
+        runtime=lambda wildcards, attempt: attempt * 1440,
         mem_mb=32000
     shell:
         """
-        checkm2 predict --force -t {threads} -x .fa --output-directory data/qc/checkm2/ --input data/filtered_assemblies/ --database_path {input.db}
+        checkm2 predict --force -t {threads} -x .faa --genes --output-directory data/qc/checkm2/ --input data/qc/checkm2_input/ --database_path {input.db}
         """
 
 rule quast:
