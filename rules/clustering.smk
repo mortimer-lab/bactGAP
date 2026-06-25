@@ -1,4 +1,6 @@
 rule poppunk_input:
+    input:
+        expand(["data/filtered_assemblies/{sample}_contigs_filtered.fa"], sample=samples["sample"])        
     output:
         qlist="data/poppunk_qlist.txt"
     run:
@@ -17,9 +19,9 @@ rule poppunk_assign:
         "../envs/poppunk.yml"
     threads: 8
     resources:
-        mem_mb=16000,
+        mem_mb=32000,
         runtime=30
     shell:
         """
-        poppunk_assign --db {params.db} --query {input.qlist} --output data/poppunk --threads {threads}
+        poppunk_assign --db {params.db} --query {input.qlist} --update-db --output data/poppunk --threads {threads}
         """
